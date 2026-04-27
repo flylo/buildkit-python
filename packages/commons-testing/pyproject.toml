@@ -1,0 +1,15 @@
+[project]
+name = "zeroshot-commons-testing"
+version = "0.1.0"
+description = "Testing helpers for Zeroshot Python packages."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = ["zeroshot-commons==0.1.0"]
+
+[tool.uv.sources]
+zeroshot-commons = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.11.8,<0.12"]
+build-backend = "uv_build"

@@ -1,0 +1,53 @@
+[project]
+name = "buildkit-python-workspace"
+version = "0.1.0"
+description = "Workspace for Zeroshot Python packages."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[dependency-groups]
+dev = [
+  "build>=1.2.2",
+  "pyright>=1.1.398",
+  "pytest>=8.3.5",
+  "pytest-asyncio>=0.26.0",
+  "pytest-cov>=6.1.1",
+  "ruff>=0.11.8",
+]
+
+[tool.pytest.ini_options]
+addopts = ["-ra", "--strict-config", "--strict-markers"]
+asyncio_mode = "auto"
+markers = [
+  "integration: marks tests that exercise external systems or cross-package integrations",
+]
+testpaths = ["packages"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "RUF", "UP"]
+
+[tool.pyright]
+pythonVersion = "3.12"
+typeCheckingMode = "strict"
+include = ["conftest.py", "packages"]
+exclude = ["**/__pycache__", "**/dist", ".venv"]
+venvPath = "."
+venv = ".venv"
+extraPaths = [
+  "packages/agent-experiments/src",
+  "packages/agentic-workflows/src",
+  "packages/commons/src",
+  "packages/commons-testing/src",
+  "packages/docling-utils/src",
+  "packages/openai-utils/src",
+  "packages/sql-decorators/src",
+  "packages/tavily-utils/src",
+]
