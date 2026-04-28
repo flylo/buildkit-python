@@ -51,6 +51,10 @@ jobs:
               shutil.rmtree(dist_root)
           dist_root.mkdir()
 
+          # Flat directory for all wheels so sibling deps can resolve via --find-links
+          all_wheels = dist_root / "_all_wheels"
+          all_wheels.mkdir()
+
           for package in packages:
               package_dist = dist_root / package["dist_name"]
               package_dist.mkdir()
@@ -60,37 +64,36 @@ jobs:
               )
               built = sorted(Path("dist").glob("*.whl")) + sorted(Path("dist").glob("*.tar.gz"))
               for artifact in built:
-                  artifact.rename(package_dist / artifact.name)
-              subprocess.run(
-                  [
-                      "uv",
-                      "run",
-                      "--isolated",
-                      "--no-project",
-                      "--with",
-                      str(next(package_dist.glob("*.whl"))),
-                      "--",
-                      "python",
-                      "scripts/smoke_test_package.py",
-                      package["import_name"],
-                  ],
-                  check=True,
-              )
-              subprocess.run(
-                  [
-                      "uv",
-                      "run",
-                      "--isolated",
-                      "--no-project",
-                      "--with",
-                      str(next(package_dist.glob("*.tar.gz"))),
-                      "--",
-                      "python",
-                      "scripts/smoke_test_package.py",
-                      package["import_name"],
-                  ],
-                  check=True,
-              )
+                  dest = package_dist / artifact.name
+                  artifact.rename(dest)
+                  # Copy wheels to the shared directory for sibling resolution
+                  if dest.suffix == ".whl":
+                      shutil.copy2(dest, all_wheels / dest.name)
+
+          # Smoke-test each package (with sibling deps available via --find-links)
+          for package in packages:
+              package_dist = dist_root / package["dist_name"]
+              for ext in ("*.whl", "*.tar.gz"):
+                  artifact = next(package_dist.glob(ext))
+                  subprocess.run(
+                      [
+                          "uv",
+                          "run",
+                          "--isolated",
+                          "--no-project",
+                          "--find-links", str(all_wheels),
+                          "--with",
+                          str(artifact),
+                          "--",
+                          "python",
+                          "scripts/smoke_test_package.py",
+                          package["import_name"],
+                      ],
+                      check=True,
+                  )
+
+          # Clean up helper directory (not needed in the upload artifact)
+          shutil.rmtree(all_wheels)
           PY
 
       - name: Upload distributions
