@@ -9,8 +9,6 @@ Python workspace for Zeroshot packages, scaffolded as a multi-package `uv` monor
 - `zeroshot-commons-testing`
 - `zeroshot-agentic-workflows`
 - `zeroshot-openai-utils`
-- `zeroshot-tavily-utils`
-- `zeroshot-docling-utils`
 - `zeroshot-sql-decorators`
 - `zeroshot-agent-experiments` (private app package)
 
