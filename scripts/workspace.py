@@ -109,7 +109,7 @@ def replace_internal_dependencies(text: str, version: str) -> str:
     body = match.group("body")
     for package_name in sorted(INTERNAL_PACKAGE_NAMES, key=len, reverse=True):
         body = re.sub(
-            rf'"{re.escape(package_name)}(?:[^"]*)"',
+            rf'"{re.escape(package_name)}(?:==|>=|<=|~=|!=|>|<)[^"]*"',
             f'"{package_name}=={version}"',
             body,
         )
