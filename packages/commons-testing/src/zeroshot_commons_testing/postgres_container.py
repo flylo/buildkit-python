@@ -19,15 +19,12 @@ class PostgresContainer:
 
     def __init__(self, database: str = "postgres") -> None:
         self._database = database
-        self._container = (
-            _PostgresContainer(
-                image=_IMAGE,
-                username=_USER,
-                password=_PASSWORD,
-                dbname=database,
-            )
-            .with_bind_ports(5432, 0)
-        )
+        self._container = _PostgresContainer(
+            image=_IMAGE,
+            username=_USER,
+            password=_PASSWORD,
+            dbname=database,
+        ).with_bind_ports(5432, 0)
         self._started: _PostgresContainer | None = None
 
     async def start(self) -> None:
@@ -60,9 +57,7 @@ class PostgresContainer:
         engine = create_async_engine(config.sqlalchemy_url())
         migrations_path = Path(migrations_dir)
 
-        files = sorted(
-            f for f in migrations_path.iterdir() if f.is_file() and f.suffix == ".sql"
-        )
+        files = sorted(f for f in migrations_path.iterdir() if f.is_file() and f.suffix == ".sql")
 
         async with engine.begin() as conn:
             for f in files:

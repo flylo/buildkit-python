@@ -5,7 +5,12 @@ from collections.abc import AsyncIterator
 from dependency_injector import containers, providers
 from redis.asyncio import Redis
 from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from zeroshot_commons import PostgresConnectionConfig, RedisClientPool, RedisConnectionConfig
 

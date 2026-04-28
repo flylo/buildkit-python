@@ -41,9 +41,7 @@ def load_query(
         )
 
     if not resolved.exists():
-        raise FileNotFoundError(
-            f"{class_name}.{method_name}: SQL file not found: {resolved}"
-        )
+        raise FileNotFoundError(f"{class_name}.{method_name}: SQL file not found: {resolved}")
 
     sql = resolved.read_text()
     _query_cache[cache_key] = sql

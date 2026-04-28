@@ -44,7 +44,7 @@ async def test_postgres_error_helpers_match_expected_behavior() -> None:
 
     async def raises_unique() -> None:
         raise make_integrity_error(
-            FakeUniqueViolation('Key (idempotency_key)=(abc) already exists.')
+            FakeUniqueViolation("Key (idempotency_key)=(abc) already exists.")
         )
 
     async def recovery() -> str:
@@ -57,10 +57,15 @@ async def test_postgres_error_helpers_match_expected_behavior() -> None:
     with pytest.raises(EntityAlreadyExistsError):
         await with_already_exists(raises_unique)
 
-    assert await handle_idempotency(
-        make_integrity_error(FakeUniqueViolation('Key (idempotency_key)=(abc) already exists.')),
-        recovery,
-    ) == "ok"
+    assert (
+        await handle_idempotency(
+            make_integrity_error(
+                FakeUniqueViolation("Key (idempotency_key)=(abc) already exists.")
+            ),
+            recovery,
+        )
+        == "ok"
+    )
     assert recovered is True
 
 

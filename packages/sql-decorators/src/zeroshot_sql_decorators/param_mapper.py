@@ -123,14 +123,10 @@ def expand_in_clauses(sql: str, replacements: dict[str, Any]) -> tuple[str, dict
 
         if value is None and has_is_null:
             # None means "skip this filter"
-            _is_null_pat = re.compile(
-                rf":{re.escape(key)}\s+IS\s+NULL", re.IGNORECASE
-            )
+            _is_null_pat = re.compile(rf":{re.escape(key)}\s+IS\s+NULL", re.IGNORECASE)
             new_sql = _is_null_pat.sub("TRUE", new_sql)
             if has_in:
-                _in_pat = re.compile(
-                    rf"IN\s*\(\s*:{re.escape(key)}\s*\)", re.IGNORECASE
-                )
+                _in_pat = re.compile(rf"IN\s*\(\s*:{re.escape(key)}\s*\)", re.IGNORECASE)
                 new_sql = _in_pat.sub("IN (NULL)", new_sql)
             continue
 
@@ -147,15 +143,11 @@ def expand_in_clauses(sql: str, replacements: dict[str, Any]) -> tuple[str, dict
 
         # Handle ":key IS NULL" patterns
         if has_is_null:
-            _is_null_pat = re.compile(
-                rf":{re.escape(key)}\s+IS\s+NULL", re.IGNORECASE
-            )
+            _is_null_pat = re.compile(rf":{re.escape(key)}\s+IS\s+NULL", re.IGNORECASE)
             new_sql = _is_null_pat.sub("FALSE", new_sql)
 
         if len(value) == 0:
-            _in_pat = re.compile(
-                rf"IN\s*\(\s*:{re.escape(key)}\s*\)", re.IGNORECASE
-            )
+            _in_pat = re.compile(rf"IN\s*\(\s*:{re.escape(key)}\s*\)", re.IGNORECASE)
             new_sql = _in_pat.sub("IN (NULL)", new_sql)
             continue
 

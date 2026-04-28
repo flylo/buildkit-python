@@ -30,9 +30,7 @@ class TestRepository(TransactionalityBase):
         await self.enum_dao.insert_enum_record_transactionally(enum_record, session=session)
 
     @sql_transaction(isolation_level="SERIALIZABLE")
-    async def nested_transaction(
-        self, session: AsyncSession | None = None
-    ) -> None:
+    async def nested_transaction(self, session: AsyncSession | None = None) -> None:
         pass
 
     @sql_transaction()

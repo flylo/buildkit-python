@@ -346,9 +346,7 @@ class TestEnums:
 
 
 class TestTransactions:
-    async def test_execute_multiple_queries_in_transaction(
-        self, engine: AsyncEngine
-    ) -> None:
+    async def test_execute_multiple_queries_in_transaction(self, engine: AsyncEngine) -> None:
         dao = EnumDao(engine)
         records = [
             EnumRecord(some_id=_random_string(), some_enum=SomeEnum.A.value),
@@ -619,9 +617,7 @@ class TestInClauses:
             query_strings: list[str] | None = None
             query_numbers: list[float] | None = None
 
-        result = await dao.get_grouped_test_clazzes(
-            GroupedQuery(query_strings=[s1, s2])
-        )
+        result = await dao.get_grouped_test_clazzes(GroupedQuery(query_strings=[s1, s2]))
         assert len(result) == 2
 
     async def test_in_clause_complex_type_numbers(self, engine: AsyncEngine) -> None:
@@ -638,9 +634,7 @@ class TestInClauses:
             query_strings: list[str] | None = None
             query_numbers: list[float] | None = None
 
-        result = await dao.get_grouped_test_clazzes(
-            GroupedQuery(query_numbers=[n1, n2])
-        )
+        result = await dao.get_grouped_test_clazzes(GroupedQuery(query_numbers=[n1, n2]))
         assert len(result) == 2
 
     async def test_in_clause_complex_type_multiple(self, engine: AsyncEngine) -> None:
@@ -739,10 +733,7 @@ class TestJsonbArrays:
         # Insert via raw SQL to get the ID
         async with engine.begin() as conn:
             row = await conn.execute(
-                text(
-                    "INSERT INTO array_table (some_jsonb_array) "
-                    "VALUES (:val) RETURNING some_id"
-                ),
+                text("INSERT INTO array_table (some_jsonb_array) VALUES (:val) RETURNING some_id"),
                 {"val": json_list},
             )
             row_id = str(row.mappings().one()["some_id"])
@@ -752,9 +743,7 @@ class TestJsonbArrays:
         assert result.result is not None
         assert len(result.result) == 2
 
-    async def test_insert_and_retrieve_empty_jsonb_array(
-        self, engine: AsyncEngine
-    ) -> None:
+    async def test_insert_and_retrieve_empty_jsonb_array(self, engine: AsyncEngine) -> None:
         dao = ArrayDao(engine)
         async with engine.begin() as conn:
             row = await conn.execute(
@@ -814,10 +803,7 @@ class TestUnconventionalFields:
             None,
         )
         assert match is not None
-        assert (
-            match.some_name_ending_in_a_number_1
-            == record.some_name_ending_in_a_number_1
-        )
+        assert match.some_name_ending_in_a_number_1 == record.some_name_ending_in_a_number_1
 
 
 # ---------------------------------------------------------------------------

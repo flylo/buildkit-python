@@ -35,9 +35,7 @@ def remove_props(obj: Any, *props: str, max_depth: int = 3) -> Any:
                 if key not in prop_set
             }
 
-        if isinstance(input_obj, Sequence) and not isinstance(
-            input_obj, (str, bytes, bytearray)
-        ):
+        if isinstance(input_obj, Sequence) and not isinstance(input_obj, (str, bytes, bytearray)):
             return [remove_props_recursive(item, current_depth) for item in input_obj]
 
         return input_obj

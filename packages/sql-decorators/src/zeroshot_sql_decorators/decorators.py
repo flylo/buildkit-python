@@ -202,7 +202,8 @@ def sql_transaction(
                 exec_opts["isolation_level"] = isolation_level
 
             session_factory = async_sessionmaker(
-                engine, expire_on_commit=False,
+                engine,
+                expire_on_commit=False,
             )
             async with session_factory.begin() as session:
                 if exec_opts:

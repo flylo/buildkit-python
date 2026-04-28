@@ -165,9 +165,7 @@ class ClazzDao(DaoBase):
             """,
         )
     )
-    async def get_grouped_test_clazzes(
-        self, grouped_query: object
-    ) -> list[TestClazz]: ...
+    async def get_grouped_test_clazzes(self, grouped_query: object) -> list[TestClazz]: ...
 
     @stream_select(
         options=StreamSelectOptions(
@@ -188,9 +186,7 @@ class ClazzDao(DaoBase):
             """,
         )
     )
-    def stream_with_in_clause(
-        self, query_strings: list[str]
-    ) -> None: ...  # type: ignore[return]
+    def stream_with_in_clause(self, query_strings: list[str]) -> None: ...  # type: ignore[return]
 
     @sql_query(
         options=QueryOptions(
@@ -201,9 +197,7 @@ class ClazzDao(DaoBase):
             """,
         )
     )
-    async def insert_test_getter_value(
-        self, test_clazz: TestClazzWithGetter
-    ) -> None: ...
+    async def insert_test_getter_value(self, test_clazz: TestClazzWithGetter) -> None: ...
 
     @sql_query(
         options=QueryOptions(

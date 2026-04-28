@@ -43,9 +43,7 @@ class BrokenDao(DaoBase):
             """,
         )
     )
-    async def incorrect_parameter_mapping(
-        self, new_number: float, lookup_string: str
-    ) -> None: ...
+    async def incorrect_parameter_mapping(self, new_number: float, lookup_string: str) -> None: ...
 
     @sql_query(
         options=QueryOptions(

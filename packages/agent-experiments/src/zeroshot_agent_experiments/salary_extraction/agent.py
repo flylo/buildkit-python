@@ -45,19 +45,15 @@ class SalaryExtractionAgent:
         output_schema=DocumentClassification,
     )
     async def classify_document(
-            self, document_text: str
-    ) -> ConsensusRunResult[DocumentClassification]:
-        ...
+        self, document_text: str
+    ) -> ConsensusRunResult[DocumentClassification]: ...
 
     @agent(output_schema=PayDataExtraction)
     async def extract_pay_data(
-            self, document_text: str, document_type: str
-    ) -> AgentRunResult[PayDataExtraction]:
-        ...
+        self, document_text: str, document_type: str
+    ) -> AgentRunResult[PayDataExtraction]: ...
 
-    async def extract_salary(
-            self, documents: list[str]
-    ) -> SalaryCalculation:
+    async def extract_salary(self, documents: list[str]) -> SalaryCalculation:
         breakdowns: list[SalaryBreakdown] = []
         best_salary: float | None = None
         best_confidence: float = 0.0
@@ -119,8 +115,8 @@ class SalaryExtractionAgent:
 
 
 def _calculate_salary(
-        doc_type: DocumentType,
-        pay_data: PayDataExtraction,
+    doc_type: DocumentType,
+    pay_data: PayDataExtraction,
 ) -> tuple[float | None, float, str]:
     """Deterministic salary calculation with priority-based approach."""
 
@@ -140,9 +136,9 @@ def _calculate_salary(
 
     # Priority 3: Hourly rate × hours × periods
     if (
-            pay_data.hourly_rate is not None
-            and pay_data.hours_worked is not None
-            and pay_data.pay_frequency is not None
+        pay_data.hourly_rate is not None
+        and pay_data.hours_worked is not None
+        and pay_data.pay_frequency is not None
     ):
         periods = PERIODS_PER_YEAR.get(pay_data.pay_frequency)
         if periods:

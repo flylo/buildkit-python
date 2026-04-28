@@ -62,9 +62,7 @@ class TestTechForwardDocuments:
 
 
 class TestGreenleafDocuments:
-    async def test_greenleaf_weekly_paystub(
-        self, salary_agent: SalaryExtractionAgent
-    ) -> None:
+    async def test_greenleaf_weekly_paystub(self, salary_agent: SalaryExtractionAgent) -> None:
         """Greenleaf weekly paystub alone → ~$83.2K (40 * 40 * 52)."""
         docs = [read_fixture("paystub-greenleaf-weekly.pdf")]
         result = await salary_agent.extract_salary(docs)
@@ -76,9 +74,7 @@ class TestGreenleafDocuments:
 
 
 class TestAllDocuments:
-    async def test_all_documents_together(
-        self, salary_agent: SalaryExtractionAgent
-    ) -> None:
+    async def test_all_documents_together(self, salary_agent: SalaryExtractionAgent) -> None:
         """All documents together → validates breakdown and methodology."""
         docs = [
             read_fixture("paystub-acme-biweekly.pdf"),

@@ -211,9 +211,7 @@ def consensus_agent(
                 )
                 return await ai_service.create_and_run(config, run_config)
 
-            all_results = await asyncio.gather(
-                *(single_run(i) for i in range(runs))
-            )
+            all_results = await asyncio.gather(*(single_run(i) for i in range(runs)))
             all_results_list = list(all_results)
 
             return await _resolve_consensus(
@@ -253,11 +251,7 @@ async def _resolve_consensus(
         serialized = [json.dumps(r.output, sort_keys=True, default=str) for r in successful]
         counts = Counter(serialized)
         winner_key, winner_count = counts.most_common(1)[0]
-        winner_result = next(
-            r
-            for r, s in zip(successful, serialized)
-            if s == winner_key
-        )
+        winner_result = next(r for r, s in zip(successful, serialized) if s == winner_key)
         return ConsensusRunResult(
             output=winner_result.output,
             success=True,

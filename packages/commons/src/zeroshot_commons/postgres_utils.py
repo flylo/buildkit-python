@@ -56,7 +56,9 @@ async def with_recovery(
     supplier: Callable[[], Awaitable[T]],
     errors: AbstractSet[SqlalchemyErrors | str],
 ) -> None:
-    normalized_errors = {error.value if isinstance(error, SqlalchemyErrors) else str(error) for error in errors}
+    normalized_errors = {
+        error.value if isinstance(error, SqlalchemyErrors) else str(error) for error in errors
+    }
     try:
         await supplier()
     except SQLAlchemyError as error:

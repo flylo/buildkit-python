@@ -36,9 +36,7 @@ class TestDao(DaoBase):
             file="insert_query.sql",
         )
     )
-    async def insert_query(
-        self, some_string: str, some_number: float, some_int: int
-    ) -> None: ...
+    async def insert_query(self, some_string: str, some_number: float, some_int: int) -> None: ...
 
     @sql_query(
         options=QueryOptions(
@@ -56,9 +54,7 @@ class TestDao(DaoBase):
             file="some_folder/update_query.sql",
         )
     )
-    async def update_query(
-        self, new_number: float, search_string: str
-    ) -> Thing | None: ...
+    async def update_query(self, new_number: float, search_string: str) -> Thing | None: ...
 
     @sql_query(
         options=QueryOptions(

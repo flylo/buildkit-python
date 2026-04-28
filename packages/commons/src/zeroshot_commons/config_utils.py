@@ -18,9 +18,7 @@ def _maybe_load_yaml(config_path: Path) -> dict[str, Any]:
     try:
         import yaml
     except ModuleNotFoundError as exc:
-        raise ModuleNotFoundError(
-            "Loading YAML config requires PyYAML to be installed."
-        ) from exc
+        raise ModuleNotFoundError("Loading YAML config requires PyYAML to be installed.") from exc
 
     with config_path.open("r", encoding="utf-8") as file_handle:
         loaded = yaml.safe_load(file_handle) or {}
@@ -40,7 +38,9 @@ def _load_raw_config(config_path: Path) -> dict[str, Any]:
         with config_path.open("r", encoding="utf-8") as file_handle:
             loaded = json.load(file_handle)
         if not isinstance(loaded, dict):
-            raise TypeError(f"Expected mapping config in {config_path}, got {type(loaded).__name__}")
+            raise TypeError(
+                f"Expected mapping config in {config_path}, got {type(loaded).__name__}"
+            )
         return cast(dict[str, Any], loaded)
     raise ValueError(f"Unsupported config file format: {config_path}")
 

@@ -23,11 +23,7 @@ class AgentParameterMapper:
     @classmethod
     def from_function(cls, func: Any) -> AgentParameterMapper:
         sig = inspect.signature(func)
-        names = [
-            name
-            for name, _param in sig.parameters.items()
-            if name != "self"
-        ]
+        names = [name for name, _param in sig.parameters.items() if name != "self"]
         return cls(names)
 
     def map_arguments(self, args: tuple[Any, ...]) -> MappedArguments:

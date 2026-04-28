@@ -36,9 +36,7 @@ class ArrayDao(DaoBase):
             """,
         )
     )
-    async def insert_array1(
-        self, some_array_1: list[str]
-    ) -> SomeArrayResult | None: ...
+    async def insert_array1(self, some_array_1: list[str]) -> SomeArrayResult | None: ...
 
     @sql_query(
         options=QueryOptions(
@@ -83,9 +81,7 @@ class ArrayDao(DaoBase):
             """,
         )
     )
-    async def concat_array1(
-        self, id: str, new_tags: list[str]
-    ) -> SomeArrayResult | None: ...
+    async def concat_array1(self, id: str, new_tags: list[str]) -> SomeArrayResult | None: ...
 
     @sql_query(
         options=QueryOptions(

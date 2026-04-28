@@ -50,7 +50,5 @@ class TestAiSessionFactory:
         factory = AiSessionFactory(repo)
 
         created = await repo.create_session("client-1")
-        retrieved = await factory.get_or_create_session(
-            "client-1", session_id=created.session_id
-        )
+        retrieved = await factory.get_or_create_session("client-1", session_id=created.session_id)
         assert retrieved.session_id == created.session_id

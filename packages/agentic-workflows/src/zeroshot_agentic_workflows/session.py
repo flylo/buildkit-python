@@ -120,9 +120,7 @@ class InMemoryConversationSessionRepository:
         session = await self.get_session(session_id)
         session_items = self._items.get(session_id, [])
         now = _now_ms()
-        sequence_number = (
-            max((item.sequence_number for item in session_items), default=-1) + 1
-        )
+        sequence_number = max((item.sequence_number for item in session_items), default=-1) + 1
 
         for item in items:
             session_items.append(
@@ -133,9 +131,7 @@ class InMemoryConversationSessionRepository:
                     role=item["role"],
                     content=item["content"],
                     metadata=(
-                        json.dumps(item["metadata"])
-                        if item.get("metadata") is not None
-                        else None
+                        json.dumps(item["metadata"]) if item.get("metadata") is not None else None
                     ),
                     created_at=now,
                     deleted_at=None,

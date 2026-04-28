@@ -6,11 +6,8 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parent.parent
-VERSION_PATTERN = re.compile(
-    r"^\d+\.\d+\.\d+(?:(?:a|b|rc)\d+)?(?:\.post\d+)?(?:\.dev\d+)?$"
-)
+VERSION_PATTERN = re.compile(r"^\d+\.\d+\.\d+(?:(?:a|b|rc)\d+)?(?:\.post\d+)?(?:\.dev\d+)?$")
 
 
 @dataclass(frozen=True)

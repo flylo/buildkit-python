@@ -62,9 +62,7 @@ def map_tool_keys(
     for key in tool_keys:
         if key not in registry:
             available = ", ".join(sorted(registry.keys()))
-            raise ValueError(
-                f"Tool key '{key}' not found in registry. Available: {available}"
-            )
+            raise ValueError(f"Tool key '{key}' not found in registry. Available: {available}")
         mapped.append(registry[key])
     return mapped
 

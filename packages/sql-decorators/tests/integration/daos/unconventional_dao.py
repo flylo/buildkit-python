@@ -33,9 +33,7 @@ class UnconventionalDao(DaoBase):
             """,
         )
     )
-    async def insert_unconventional_type(
-        self, unconventional_type: UnconventionalType
-    ) -> None: ...
+    async def insert_unconventional_type(self, unconventional_type: UnconventionalType) -> None: ...
 
     @sql_query(
         options=QueryOptions(

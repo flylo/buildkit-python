@@ -3,7 +3,13 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from zeroshot_commons import ApplicationConfig, deep_merge, load_config, parse_env_variables, run_with_env
+from zeroshot_commons import (
+    ApplicationConfig,
+    deep_merge,
+    load_config,
+    parse_env_variables,
+    run_with_env,
+)
 
 
 def test_deep_merge_recursively_overrides_values() -> None:

@@ -53,11 +53,10 @@ class LolDao(DaoBase):
             clazz=Lol,
             return_list=True,
             query="""
-                SELECT * FROM lol
-                WHERE some_string IN (:query_string1, :query_string2)
-            """,
+                  SELECT *
+                  FROM lol
+                  WHERE some_string IN (:query_string1, :query_string2)
+                  """,
         )
     )
-    async def get_multiple_lols(
-        self, query_string1: str, query_string2: str
-    ) -> list[Lol]: ...
+    async def get_multiple_lols(self, query_string1: str, query_string2: str) -> list[Lol]: ...

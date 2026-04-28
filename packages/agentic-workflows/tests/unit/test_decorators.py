@@ -48,7 +48,9 @@ def prompts_dir() -> str:
 def _make_workflow_class(prompts_dir: str) -> type:
     """Build a workflow class with all the decorated methods."""
 
-    async def _judge_fn(instance: object, results: list[AgentRunResult[str]]) -> AgentRunResult[str]:
+    async def _judge_fn(
+        instance: object, results: list[AgentRunResult[str]]
+    ) -> AgentRunResult[str]:
         return results[0]
 
     @agentic_workflow(prompts_directory=prompts_dir)
@@ -62,43 +64,33 @@ def _make_workflow_class(prompts_dir: str) -> type:
         ) -> AgentRunResult[str]: ...
 
         @agent(model="test-model-override")
-        async def test_model_override_method(
-            self, input_text: str
-        ) -> AgentRunResult[str]: ...
+        async def test_model_override_method(self, input_text: str) -> AgentRunResult[str]: ...
 
         @consensus_agent(
             runs=3,
             consensus_strategy=ConsensusStrategy.MAJORITY,
         )
-        async def majority_method(
-            self, input_text: str
-        ) -> ConsensusRunResult[str]: ...
+        async def majority_method(self, input_text: str) -> ConsensusRunResult[str]: ...
 
         @consensus_agent(
             runs=3,
             consensus_strategy=ConsensusStrategy.UNANIMOUS,
         )
-        async def unanimous_method(
-            self, input_text: str
-        ) -> ConsensusRunResult[str]: ...
+        async def unanimous_method(self, input_text: str) -> ConsensusRunResult[str]: ...
 
         @consensus_agent(
             runs=3,
             consensus_strategy=ConsensusStrategy.JUDGE,
             judge=_judge_fn,
         )
-        async def judge_method(
-            self, input_text: str
-        ) -> ConsensusRunResult[str]: ...
+        async def judge_method(self, input_text: str) -> ConsensusRunResult[str]: ...
 
         @consensus_agent(
             runs=3,
             consensus_strategy=ConsensusStrategy.MAJORITY,
             temperature_spread=(0.2, 1.0),
         )
-        async def temp_spread_method(
-            self, input_text: str
-        ) -> ConsensusRunResult[str]: ...
+        async def temp_spread_method(self, input_text: str) -> ConsensusRunResult[str]: ...
 
     return TestWorkflow
 
@@ -109,9 +101,7 @@ def _make_workflow_class(prompts_dir: str) -> type:
 
 
 class TestAgentDecorator:
-    async def test_picks_up_session_and_passes_to_service(
-        self, prompts_dir: str
-    ) -> None:
+    async def test_picks_up_session_and_passes_to_service(self, prompts_dir: str) -> None:
         Cls = _make_workflow_class(prompts_dir)
         service = AiAgentServiceLocal.get_instance()
         AiAgentServiceLocal.set_response("TestWorkflow:test_method", "hello")
@@ -132,9 +122,7 @@ class TestAgentDecorator:
         assert items[0].role == "user"
         assert items[1].role == "assistant"
 
-    async def test_excludes_session_from_input_json(
-        self, prompts_dir: str
-    ) -> None:
+    async def test_excludes_session_from_input_json(self, prompts_dir: str) -> None:
         Cls = _make_workflow_class(prompts_dir)
         service = AiAgentServiceLocal.get_instance()
 
@@ -213,9 +201,7 @@ class TestMajorityStrategy:
     async def test_all_agree(self, prompts_dir: str) -> None:
         Cls = _make_workflow_class(prompts_dir)
         service = AiAgentServiceLocal.get_instance()
-        AiAgentServiceLocal.set_responses(
-            "TestWorkflow:majority_method", ["same", "same", "same"]
-        )
+        AiAgentServiceLocal.set_responses("TestWorkflow:majority_method", ["same", "same", "same"])
         wf = Cls(service)
 
         result = await wf.majority_method("test")
@@ -245,9 +231,7 @@ class TestMajorityStrategy:
         Cls = _make_workflow_class(prompts_dir)
         service = AiAgentServiceLocal.get_instance()
         # Only 2 responses queued; 3rd run gets last response repeated
-        AiAgentServiceLocal.set_responses(
-            "TestWorkflow:majority_method", ["ok", "ok"]
-        )
+        AiAgentServiceLocal.set_responses("TestWorkflow:majority_method", ["ok", "ok"])
         wf = Cls(service)
 
         result = await wf.majority_method("test")
@@ -291,9 +275,7 @@ class TestUnanimousStrategy:
     async def test_disagree(self, prompts_dir: str) -> None:
         Cls = _make_workflow_class(prompts_dir)
         service = AiAgentServiceLocal.get_instance()
-        AiAgentServiceLocal.set_responses(
-            "TestWorkflow:unanimous_method", ["a", "a", "b"]
-        )
+        AiAgentServiceLocal.set_responses("TestWorkflow:unanimous_method", ["a", "a", "b"])
         wf = Cls(service)
 
         result = await wf.unanimous_method("test")
@@ -311,9 +293,7 @@ class TestJudgeStrategy:
     async def test_judge_selects_first(self, prompts_dir: str) -> None:
         Cls = _make_workflow_class(prompts_dir)
         service = AiAgentServiceLocal.get_instance()
-        AiAgentServiceLocal.set_responses(
-            "TestWorkflow:judge_method", ["alpha", "beta", "gamma"]
-        )
+        AiAgentServiceLocal.set_responses("TestWorkflow:judge_method", ["alpha", "beta", "gamma"])
         wf = Cls(service)
 
         result = await wf.judge_method("test")
@@ -346,17 +326,13 @@ class TestTemperatureSpread:
         captured_settings: list[dict[str, object] | None] = []
         original = service.create_and_run
 
-        async def spy(
-            config: AgentConfig[str], run_config: AgentRunConfig
-        ) -> AgentRunResult[str]:
+        async def spy(config: AgentConfig[str], run_config: AgentRunConfig) -> AgentRunResult[str]:
             captured_settings.append(config.model_settings)
             return await original(config, run_config)
 
         service.create_and_run = spy  # type: ignore[assignment]
 
-        AiAgentServiceLocal.set_responses(
-            "TestWorkflow:temp_spread_method", ["a", "a", "a"]
-        )
+        AiAgentServiceLocal.set_responses("TestWorkflow:temp_spread_method", ["a", "a", "a"])
         wf = Cls(service)
         await wf.temp_spread_method("test")
 
