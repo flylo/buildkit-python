@@ -336,7 +336,7 @@ class TestTemperatureSpread:
         await wf.temp_spread_method("test")
 
         assert len(captured_settings) == 3
-        temps = [s["temperature"] for s in captured_settings if s]  # type: ignore[index]
+        temps: list[float] = [s["temperature"] for s in captured_settings if s]  # type: ignore[index]
         assert abs(temps[0] - 0.2) < 0.01
         assert abs(temps[1] - 0.6) < 0.01
         assert abs(temps[2] - 1.0) < 0.01

@@ -40,7 +40,7 @@ def _map_select(
     return_list: bool,
 ) -> Any:
     if return_list:
-        return [_to_instance(dict(r), clazz) for r in rows]
+        return [to_instance(dict(r), clazz) for r in rows]
 
     if len(rows) == 0:
         return None
@@ -51,7 +51,7 @@ def _map_select(
             "Set return_list=True in QueryOptions to allow multiple rows."
         )
 
-    return _to_instance(dict(rows[0]), clazz)
+    return to_instance(dict(rows[0]), clazz)
 
 
 def _map_returning(
@@ -63,12 +63,12 @@ def _map_returning(
         return None
 
     if return_list:
-        return [_to_instance(dict(r), clazz) for r in rows]
+        return [to_instance(dict(r), clazz) for r in rows]
 
-    return _to_instance(dict(rows[0]), clazz)
+    return to_instance(dict(rows[0]), clazz)
 
 
-def _to_instance(row: dict[str, Any], clazz: type[Any] | None) -> Any:
+def to_instance(row: dict[str, Any], clazz: type[Any] | None) -> Any:
     """Convert a row dict to a class instance or cleaned dict."""
     cleaned = _clean_row(row)
 
@@ -90,7 +90,7 @@ def _to_instance(row: dict[str, Any], clazz: type[Any] | None) -> Any:
                     if args and dataclasses.is_dataclass(args[0]):
                         inner_cls = args[0]
                         filtered[f.name] = [
-                            _to_instance(item, inner_cls) if isinstance(item, dict) else item
+                            to_instance(item, inner_cls) if isinstance(item, dict) else item
                             for item in val
                         ]
 

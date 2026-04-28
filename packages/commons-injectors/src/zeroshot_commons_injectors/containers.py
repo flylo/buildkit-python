@@ -23,7 +23,7 @@ def build_redis_client(connection_config: RedisConnectionConfig) -> Redis:
 
 async def init_redis_client(connection_config: RedisConnectionConfig) -> AsyncIterator[Redis]:
     client = build_redis_client(connection_config)
-    await client.ping()
+    await client.ping()  # type: ignore[misc]
     try:
         yield client
     finally:

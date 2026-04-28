@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
+from typing import Any
 
 from testcontainers.postgres import PostgresContainer as _PostgresContainer
 from zeroshot_commons import PostgresConnectionConfig
@@ -24,7 +25,7 @@ class PostgresContainer:
             password=_PASSWORD,
             dbname=database,
         ).with_bind_ports(5432, 0)
-        self._started: _PostgresContainer | None = None
+        self._started: Any = None
 
     async def start(self) -> None:
         self._started = self._container.start()

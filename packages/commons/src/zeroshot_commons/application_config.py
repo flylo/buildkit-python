@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Any
 
 from .config_utils import load_config
 
@@ -14,7 +15,7 @@ class ApplicationConfig:
 
     @classmethod
     def from_root(cls, application_root: str) -> ApplicationConfig:
-        config: dict[str, object] = load_config(application_root)
+        config: dict[str, Any] = load_config(application_root)
         return cls(
             local=bool(config.get("local", False)),
             port=int(config.get("port", 0)),

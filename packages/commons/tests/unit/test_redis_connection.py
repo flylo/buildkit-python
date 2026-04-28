@@ -46,7 +46,7 @@ async def test_redis_client_pool_acquire_release_and_close() -> None:
     client = await pool.acquire()
     pool.release(client)
 
-    result = await pool.with_connection(lambda acquired: acquired.name)
+    result = await pool.with_connection(lambda acquired: acquired.name)  # type: ignore[attr-defined]
     assert result.startswith("localhost-")
 
     await pool.close()

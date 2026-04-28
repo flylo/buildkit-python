@@ -60,7 +60,7 @@ class AiAgentServiceOllama:
                 model=model,
                 tools=agent_config.tools or [],
                 output_type=agent_config.output_schema,
-                **({"model_settings": ms} if ms is not None else {}),
+                model_settings=ms or ModelSettings(),
             )
 
             run_kwargs: dict[str, Any] = {"input": run_config.input}

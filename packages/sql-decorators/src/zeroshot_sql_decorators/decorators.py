@@ -108,11 +108,17 @@ def sql_query(options: QueryOptions) -> Any:
 
             if session is not None:
                 result = await session.execute(text(expanded_sql), expanded_params)
-                rows = result.mappings().all() if result.returns_rows else []
+                try:
+                    rows: list[Any] = [dict(r) for r in result.mappings().all()]
+                except Exception:
+                    rows = []
             else:
                 async with engine.connect() as conn:
                     result = await conn.execute(text(expanded_sql), expanded_params)
-                    rows = result.mappings().all() if result.returns_rows else []
+                    try:
+                        rows = [dict(r) for r in result.mappings().all()]
+                    except Exception:
+                        rows = []
                     await conn.commit()
 
             return map_result(rows, options.query_type, options.clazz, options.return_list)

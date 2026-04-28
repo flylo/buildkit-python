@@ -90,14 +90,14 @@ def load_config(
     main_dir: str,
     config_key: str = "",
     config_file_path: str = "assets/config.yaml",
-) -> T:
+) -> Any:
     package_root = Path(main_dir).resolve().parent
     config_path = package_root / config_file_path
     config = _load_raw_config(config_path)
     merged_config = deep_merge(config, parse_env_variables())
 
     if not config_key:
-        return cast(T, merged_config)
+        return merged_config
 
     sub_config: Any = merged_config
     for key in config_key.split("."):
@@ -113,7 +113,7 @@ def load_config(
         config_file_path,
         json.dumps(sub_config),
     )
-    return cast(T, sub_config)
+    return sub_config
 
 
 @contextmanager

@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 
 from .param_mapper import expand_in_clauses
 from .query import BatchingOptions, apply_batching
-from .result_mapper import _to_instance
+from .result_mapper import to_instance
 
 
 class StreamIterator[T]:
@@ -40,7 +40,7 @@ class StreamIterator[T]:
                 rows = result.mappings().all()
 
             for row in rows:
-                instance = _to_instance(dict(row), self._clazz)
+                instance = to_instance(dict(row), self._clazz)
                 yield instance
 
             if len(rows) < self._batch_size:

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from collections.abc import AsyncIterator
+
 import pytest_asyncio
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
@@ -62,7 +64,7 @@ async def postgres_container():
 
 
 @pytest_asyncio.fixture(scope="module", loop_scope="module")
-async def engine(postgres_container: PostgresContainer) -> AsyncEngine:
+async def engine(postgres_container: PostgresContainer) -> AsyncIterator[AsyncEngine]:
     config = postgres_container.get_connection_config()
     eng = create_async_engine(config.sqlalchemy_url(), echo=False)
 

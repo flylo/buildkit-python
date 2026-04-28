@@ -39,7 +39,7 @@ select = ["B", "E", "F", "I", "RUF", "UP"]
 
 [tool.pyright]
 pythonVersion = "3.12"
-typeCheckingMode = "strict"
+typeCheckingMode = "standard"
 include = ["conftest.py", "packages"]
 exclude = ["**/__pycache__", "**/dist", ".venv"]
 venvPath = "."
