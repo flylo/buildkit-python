@@ -4,13 +4,13 @@ from __future__ import annotations
 
 import random
 import string
-import uuid
 
 import pytest
 from sqlalchemy import text
+from sqlalchemy.exc import IntegrityError, ProgrammingError
 from sqlalchemy.ext.asyncio import AsyncEngine
 
-from .daos.array_dao import ArrayDao, SomeArrayResult
+from .daos.array_dao import ArrayDao
 from .daos.broken_dao import BrokenDao, BrokenType
 from .daos.clazz_dao import TEST_GETTER_VALUE, ClazzDao, TestClazz, TestClazzWithGetter
 from .daos.enum_dao import EnumDao, EnumRecord, SomeEnum
@@ -243,7 +243,7 @@ class TestErrorHandling:
         s = _random_string()
         await dao.insert_query(s, _random_float(), _random_int())
 
-        with pytest.raises(Exception):
+        with pytest.raises(IntegrityError):
             await dao.insert_query(s, _random_float(), _random_int())
 
         await dao.delete_query(s)
@@ -271,7 +271,7 @@ class TestErrorHandling:
         s = _random_string()
         await dao.insert_broken_type(BrokenType(s))
 
-        with pytest.raises(Exception):
+        with pytest.raises(ProgrammingError):
             await dao.incorrect_parameter_mapping(999.0, s)
 
         async with engine.begin() as conn:
@@ -378,7 +378,7 @@ class TestTransactions:
             existing,  # duplicate PK
         ]
 
-        with pytest.raises(Exception):
+        with pytest.raises(IntegrityError):
             await dao.insert_many_transactionally(records)
 
         # First record in the batch should NOT have been committed

@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-import pytest
 import pytest_asyncio
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
-
 from zeroshot_commons_testing import PostgresContainer
 
 _CREATE_TABLES = [

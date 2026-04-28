@@ -7,7 +7,7 @@ from typing import TypeVar
 T = TypeVar("T")
 
 
-async def eventually(
+async def eventually[T](
     runnable: Callable[[], Awaitable[T]],
     interval_ms: int = 100,
     duration_ms: int = 10_000,

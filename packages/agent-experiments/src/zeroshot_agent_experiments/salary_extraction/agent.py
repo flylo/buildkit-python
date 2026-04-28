@@ -127,14 +127,14 @@ def _calculate_salary(
     if pay_data.stated_annual_wages is not None:
         return pay_data.stated_annual_wages, 1.0, "stated_annual_wages"
 
-    # Priority 2: Gross pay × periods per year
+    # Priority 2: Gross pay * periods per year
     if pay_data.gross_pay_period is not None and pay_data.pay_frequency is not None:
         periods = PERIODS_PER_YEAR.get(pay_data.pay_frequency)
         if periods:
             annual = pay_data.gross_pay_period * periods
             return annual, 0.9, "gross_pay_times_periods"
 
-    # Priority 3: Hourly rate × hours × periods
+    # Priority 3: Hourly rate * hours * periods
     if (
         pay_data.hourly_rate is not None
         and pay_data.hours_worked is not None

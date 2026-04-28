@@ -30,7 +30,7 @@ class AgentParameterMapper:
         input_obj: dict[str, Any] = {}
         context: dict[str, Any] | None = None
 
-        for name, value in zip(self._param_names, args):
+        for name, value in zip(self._param_names, args, strict=False):
             if isinstance(value, RepositorySession):
                 continue
             if name == "context":
@@ -50,7 +50,7 @@ class AgentParameterMapper:
         return None
 
     def get_param_value(self, name: str, args: tuple[Any, ...]) -> Any:
-        for pname, value in zip(self._param_names, args):
+        for pname, value in zip(self._param_names, args, strict=False):
             if pname == name:
                 return value
         return None

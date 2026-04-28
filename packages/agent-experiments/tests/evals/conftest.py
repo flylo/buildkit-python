@@ -4,10 +4,8 @@ from pathlib import Path
 
 import pytest
 import pytest_asyncio
-
-from zeroshot_agentic_workflows import AiAgentConfig, AiAgentFactory, AiAgentProvider
-
 from zeroshot_agent_experiments import SalaryExtractionAgent
+from zeroshot_agentic_workflows import AiAgentConfig, AiAgentFactory, AiAgentProvider
 
 FIXTURES_DIR = Path(__file__).parent / "assets" / "fixtures"
 

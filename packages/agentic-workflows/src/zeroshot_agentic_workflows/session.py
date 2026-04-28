@@ -7,7 +7,6 @@ from time import time
 from typing import Any, Protocol, TypedDict, cast
 from uuid import uuid4
 
-
 CONVERSATION_SESSION_REPOSITORY = "CONVERSATION_SESSION_REPOSITORY"
 
 

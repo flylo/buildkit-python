@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel, Field
 
 
-class DocumentType(str, Enum):
+class DocumentType(StrEnum):
     PAYSTUB = "paystub"
     W2 = "w2"
     OFFER_LETTER = "offer_letter"

@@ -24,7 +24,7 @@ class Prompt:
         message: str,
         model: str | None = None,
         temperature: float | None = None,
-    ) -> "Prompt":
+    ) -> Prompt:
         return cls(
             system_prompt=system_prompt,
             message=message,
@@ -53,7 +53,7 @@ class ChatResponse:
     completion: str | None
 
     @classmethod
-    def for_completion(cls, completion: Any) -> "ChatResponse":
+    def for_completion(cls, completion: Any) -> ChatResponse:
         choices = _get_field(completion, "choices") or []
         first_choice = choices[0] if choices else None
         message = _get_field(first_choice, "message") if first_choice is not None else None
@@ -61,5 +61,5 @@ class ChatResponse:
         return cls(completion=content)
 
     @classmethod
-    def for_exception(cls) -> "ChatResponse":
+    def for_exception(cls) -> ChatResponse:
         return cls(completion=None)

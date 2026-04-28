@@ -3,8 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from zeroshot_sql_decorators import (
     BooleanResult,
     DaoBase,

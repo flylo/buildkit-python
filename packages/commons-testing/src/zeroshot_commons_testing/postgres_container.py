@@ -4,7 +4,6 @@ import logging
 from pathlib import Path
 
 from testcontainers.postgres import PostgresContainer as _PostgresContainer
-
 from zeroshot_commons import PostgresConnectionConfig
 
 logger = logging.getLogger(__name__)

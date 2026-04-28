@@ -1,4 +1,4 @@
-"""Port of the TS decorators.spec.ts test suite + coverage for prompt_utils, param_mapper, factory."""
+"""Port of the TS decorators.spec.ts test suite."""
 
 from __future__ import annotations
 
@@ -7,7 +7,6 @@ import tempfile
 from pathlib import Path
 
 import pytest
-
 from zeroshot_agentic_workflows import (
     AgentConfig,
     AgentRunConfig,

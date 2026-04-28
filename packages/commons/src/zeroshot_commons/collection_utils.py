@@ -3,12 +3,11 @@ from __future__ import annotations
 from collections.abc import Awaitable, Callable, Mapping
 from typing import TypeVar
 
-
 K = TypeVar("K")
 V = TypeVar("V")
 
 
-async def get_or_else(
+async def get_or_else[K, V](
     key: K,
     mapping: Mapping[K, V],
     if_empty_provider: Callable[[], Awaitable[V]],

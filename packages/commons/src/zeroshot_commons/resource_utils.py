@@ -4,8 +4,7 @@ import asyncio
 import logging
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
-from typing import Any, Generic, TypeVar
-
+from typing import Any, TypeVar
 
 T = TypeVar("T")
 CLOSER_FUNCTION_TIMEOUT = 10.0
@@ -13,12 +12,12 @@ LOGGER = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True, slots=True)
-class CloseableResource(Generic[T]):
+class CloseableResource[T]:
     resource: T
     closing_function: Callable[[T], Awaitable[Any]]
 
 
-async def with_timeout(awaitable: Awaitable[T], timeout_seconds: float) -> T:
+async def with_timeout[T](awaitable: Awaitable[T], timeout_seconds: float) -> T:
     return await asyncio.wait_for(awaitable, timeout=timeout_seconds)
 
 
@@ -27,7 +26,7 @@ class Closer:
         self._closeable_resources: list[CloseableResource[Any]] = []
 
     @classmethod
-    def create(cls, *closeables: CloseableResource[Any]) -> "Closer":
+    def create(cls, *closeables: CloseableResource[Any]) -> Closer:
         closer = cls()
         closer._closeable_resources = list(closeables)
         return closer

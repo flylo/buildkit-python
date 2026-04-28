@@ -5,12 +5,11 @@ from collections.abc import Awaitable, Callable
 from time import perf_counter
 from typing import TypeVar
 
-
 T = TypeVar("T")
 LOGGER = logging.getLogger(__name__)
 
 
-async def time_function(
+async def time_function[T](
     func: Callable[[], Awaitable[T]],
     func_name: str = "Function",
 ) -> T:

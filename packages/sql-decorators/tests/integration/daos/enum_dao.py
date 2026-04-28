@@ -4,7 +4,6 @@ import enum
 from dataclasses import dataclass
 
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from zeroshot_sql_decorators import (
     DaoBase,
     QueryOptions,
@@ -15,7 +14,7 @@ from zeroshot_sql_decorators import (
 )
 
 
-class SomeEnum(str, enum.Enum):
+class SomeEnum(enum.StrEnum):
     A = "A"
     B = "B"
 

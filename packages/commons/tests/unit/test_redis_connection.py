@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import pytest
-
 from zeroshot_commons import RedisClientPool, RedisConnectionConfig
 
 

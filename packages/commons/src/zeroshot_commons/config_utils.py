@@ -9,7 +9,6 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Any, TypeVar, cast
 
-
 LOGGER = logging.getLogger(__name__)
 T = TypeVar("T")
 
@@ -128,6 +127,6 @@ def _temp_env(env_vars: list[tuple[str, str]]) -> Any:
         os.environ.update(old_env)
 
 
-def run_with_env(runnable: Callable[[], T], env_vars: list[tuple[str, str]]) -> T:
+def run_with_env[T](runnable: Callable[[], T], env_vars: list[tuple[str, str]]) -> T:
     with _temp_env(env_vars):
         return runnable()

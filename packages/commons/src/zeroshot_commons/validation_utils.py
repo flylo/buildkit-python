@@ -4,7 +4,6 @@ import re
 from typing import Any
 from urllib.parse import urlparse
 
-
 HTML_TAG_PATTERN = re.compile(r"</?\s*[a-z][\s\S]*?>", re.IGNORECASE)
 SCRIPT_STYLE_PATTERN = re.compile(r"<(script|style)\b[\s\S]*?>[\s\S]*?</\1>", re.IGNORECASE)
 URL_PATTERN = re.compile(r"(http://|https://|www\.)", re.IGNORECASE)

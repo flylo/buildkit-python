@@ -3,7 +3,6 @@ from __future__ import annotations
 import logging
 
 from testcontainers.redis import RedisContainer as _RedisContainer
-
 from zeroshot_commons import RedisConnectionConfig
 
 logger = logging.getLogger(__name__)

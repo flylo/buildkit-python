@@ -4,7 +4,6 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from threading import Lock, Timer
 
-
 AbortListener = Callable[[], None]
 
 
@@ -75,7 +74,7 @@ class TimeoutAbortController:
             self._abort_listener = None
 
     @classmethod
-    def with_timeout(cls, timeout_ms: int) -> tuple["TimeoutAbortController", AbortSignal]:
+    def with_timeout(cls, timeout_ms: int) -> tuple[TimeoutAbortController, AbortSignal]:
         controller = cls()
         signal = controller.set_timeout(timeout_ms)
         return controller, signal

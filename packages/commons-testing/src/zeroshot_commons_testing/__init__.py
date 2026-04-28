@@ -8,9 +8,9 @@ from .redis_container import RedisContainer
 __all__ = [
     "AFTER_ALL_TIMEOUT",
     "BEFORE_ALL_TIMEOUT",
+    "TEST_TIMEOUT",
     "PostgresContainer",
     "RedisContainer",
-    "TEST_TIMEOUT",
     "eventually",
     "timeout",
 ]

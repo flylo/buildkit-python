@@ -26,7 +26,7 @@ class PostgresConnectionConfig:
     POSTGRES_CONFIG_KEY = "postgres"
 
     @classmethod
-    def from_mapping(cls, data: Mapping[str, Any]) -> "PostgresConnectionConfig":
+    def from_mapping(cls, data: Mapping[str, Any]) -> PostgresConnectionConfig:
         return cls(
             host=str(data["host"]),
             port=int(data["port"]),
@@ -47,7 +47,7 @@ class PostgresConnectionConfig:
     def from_application_config(
         cls,
         application_config: ApplicationConfig,
-    ) -> "PostgresConnectionConfig":
+    ) -> PostgresConnectionConfig:
         if not application_config.application_root:
             raise ValueError("application_root is required to load postgres config")
         config: dict[str, Any] = load_config(

@@ -13,7 +13,7 @@ from .param_mapper import build_replacements, expand_in_clauses, extract_param_n
 from .query import load_query
 from .result_mapper import map_result
 from .stream_iterator import StreamIterator
-from .types import QueryOptions, QueryType, StreamSelectOptions
+from .types import QueryOptions, StreamSelectOptions
 
 logger = logging.getLogger(__name__)
 

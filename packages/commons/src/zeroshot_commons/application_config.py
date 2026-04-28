@@ -13,7 +13,7 @@ class ApplicationConfig:
     use_remote_secrets: bool = False
 
     @classmethod
-    def from_root(cls, application_root: str) -> "ApplicationConfig":
+    def from_root(cls, application_root: str) -> ApplicationConfig:
         config: dict[str, object] = load_config(application_root)
         return cls(
             local=bool(config.get("local", False)),
@@ -28,5 +28,5 @@ class ApplicationConfig:
         local: bool,
         port: int,
         application_root: str | None = None,
-    ) -> "ApplicationConfig":
+    ) -> ApplicationConfig:
         return cls(local=local, port=port, application_root=application_root)

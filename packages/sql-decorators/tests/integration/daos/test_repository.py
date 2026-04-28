@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession
-
 from zeroshot_sql_decorators import (
     TransactionalityBase,
     sql_transaction,

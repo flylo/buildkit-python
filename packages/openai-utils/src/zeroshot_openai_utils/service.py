@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 import secrets
-from typing import Protocol
+from typing import ClassVar, Protocol
 
 from openai import AsyncOpenAI
 
@@ -19,9 +19,9 @@ class OpenaiService(Protocol):
 class OpenaiServiceLocal:
     """Mock implementation for testing. Singleton."""
 
-    _instance: OpenaiServiceLocal | None = None
-    _responses_by_prompt_substring: dict[str, str] = {}
-    _error_counts_by_prompt_substring: dict[str, int] = {}
+    _instance: ClassVar[OpenaiServiceLocal | None] = None
+    _responses_by_prompt_substring: ClassVar[dict[str, str]] = {}
+    _error_counts_by_prompt_substring: ClassVar[dict[str, int]] = {}
 
     @classmethod
     def get_instance(cls) -> OpenaiServiceLocal:

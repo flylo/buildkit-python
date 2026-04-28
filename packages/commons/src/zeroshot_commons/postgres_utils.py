@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Awaitable, Callable, Mapping, Set as AbstractSet
+from collections.abc import Awaitable, Callable, Mapping
+from collections.abc import Set as AbstractSet
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from typing import Any, TypeVar
 
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
-
 
 T = TypeVar("T")
 UNIQUE_VIOLATION_CODE = "23505"
@@ -15,7 +15,7 @@ FOREIGN_KEY_VIOLATION_CODE = "23503"
 DETAIL_PATTERN = re.compile(r"Key \((?P<fields>[^)]+)\)=")
 
 
-class SqlalchemyErrors(str, Enum):
+class SqlalchemyErrors(StrEnum):
     UNIQUE_CONSTRAINT = UNIQUE_VIOLATION_CODE
     FOREIGN_KEY_CONSTRAINT = FOREIGN_KEY_VIOLATION_CODE
 
@@ -52,7 +52,7 @@ def _is_unique_violation(error: IntegrityError) -> bool:
     return "unique" in type(getattr(error, "orig", None)).__name__.lower()
 
 
-async def with_recovery(
+async def with_recovery[T](
     supplier: Callable[[], Awaitable[T]],
     errors: AbstractSet[SqlalchemyErrors | str],
 ) -> None:
@@ -68,7 +68,7 @@ async def with_recovery(
         raise
 
 
-async def with_already_exists(
+async def with_already_exists[T](
     supplier: Callable[[], Awaitable[T]],
 ) -> T:
     try:
@@ -79,7 +79,7 @@ async def with_already_exists(
         raise
 
 
-async def handle_idempotency(
+async def handle_idempotency[T](
     base_error: SQLAlchemyError,
     recovery_runnable: Callable[[], Awaitable[T]],
     recoverable_constraint_violations: AbstractSet[str] | None = None,

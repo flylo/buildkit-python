@@ -149,7 +149,8 @@ def check_version(version: str) -> None:
         package_version = read_version(pyproject)
         if package_version != expected:
             raise SystemExit(
-                f"{package.dist_name} version mismatch: expected {expected}, found {package_version}"
+                f"{package.dist_name} version mismatch: "
+                f"expected {expected}, found {package_version}"
             )
         text = pyproject.read_text()
         dependencies_match = re.search(r"dependencies = \[(?P<body>.*?)\]", text, re.DOTALL)

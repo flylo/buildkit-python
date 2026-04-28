@@ -4,7 +4,6 @@ import asyncio
 import hashlib
 
 import pytest
-
 from zeroshot_commons import (
     CloseableResource,
     Closer,

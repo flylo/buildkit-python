@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import Any, Generic, Protocol, TypeVar
-
+from enum import StrEnum
+from typing import Any, ClassVar, Protocol, TypeVar
 
 T = TypeVar("T")
 
@@ -19,7 +18,7 @@ class AgentRunConfig:
 
 
 @dataclass(frozen=True, slots=True)
-class AgentRunResult(Generic[T]):
+class AgentRunResult[T]:
     output: T
     success: bool
     error: str | None = None
@@ -27,7 +26,7 @@ class AgentRunResult(Generic[T]):
     working_dir: str | None = None
 
 
-class ConsensusStrategy(str, Enum):
+class ConsensusStrategy(StrEnum):
     MAJORITY = "majority"
     UNANIMOUS = "unanimous"
     JUDGE = "judge"
@@ -42,7 +41,7 @@ class ConsensusRunResult(AgentRunResult[T]):
 
 
 @dataclass(frozen=True, slots=True)
-class AgentConfig(Generic[T]):
+class AgentConfig[T]:
     name: str
     instructions: str
     model: str | None = None
@@ -53,7 +52,7 @@ class AgentConfig(Generic[T]):
 
 
 @dataclass(frozen=True, slots=True)
-class AgentType(Generic[T]):
+class AgentType[T]:
     config: AgentConfig[T]
 
 
@@ -73,7 +72,7 @@ class AiAgentService(Protocol):
     ) -> AgentRunResult[T]: ...
 
 
-class AiAgentProvider(str, Enum):
+class AiAgentProvider(StrEnum):
     OPENAI = "openai"
     OLLAMA = "ollama"
 
@@ -88,14 +87,14 @@ class AiAgentConfig:
 
 
 class AiAgentServiceLocal:
-    _instance: "AiAgentServiceLocal | None" = None
-    _responses_by_agent_name: dict[str, list[Any]] = {}
-    _last_response_by_agent_name: dict[str, Any] = {}
-    _errors_by_agent_name: dict[str, str] = {}
-    _mock_working_dir: str | None = None
+    _instance: ClassVar[AiAgentServiceLocal | None] = None
+    _responses_by_agent_name: ClassVar[dict[str, list[Any]]] = {}
+    _last_response_by_agent_name: ClassVar[dict[str, Any]] = {}
+    _errors_by_agent_name: ClassVar[dict[str, str]] = {}
+    _mock_working_dir: ClassVar[str | None] = None
 
     @classmethod
-    def get_instance(cls) -> "AiAgentServiceLocal":
+    def get_instance(cls) -> AiAgentServiceLocal:
         if cls._instance is None:
             cls._instance = cls()
         return cls._instance

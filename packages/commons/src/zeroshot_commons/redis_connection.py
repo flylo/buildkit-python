@@ -10,7 +10,6 @@ from urllib.parse import quote_plus
 from .application_config import ApplicationConfig
 from .config_utils import load_config
 
-
 T = TypeVar("T")
 
 
@@ -32,7 +31,7 @@ class RedisConnectionConfig:
     REDIS_CONFIG_KEY = "redis"
 
     @classmethod
-    def from_mapping(cls, data: Mapping[str, Any]) -> "RedisConnectionConfig":
+    def from_mapping(cls, data: Mapping[str, Any]) -> RedisConnectionConfig:
         return cls(
             host=str(data["host"]),
             port=int(data["port"]),
@@ -48,7 +47,7 @@ class RedisConnectionConfig:
     def from_application_config(
         cls,
         application_config: ApplicationConfig,
-    ) -> "RedisConnectionConfig":
+    ) -> RedisConnectionConfig:
         if not application_config.application_root:
             raise ValueError("application_root is required to load redis config")
         config: dict[str, Any] = load_config(

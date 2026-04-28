@@ -3,7 +3,6 @@ from __future__ import annotations
 import dataclasses
 import inspect
 import re
-from collections.abc import Sequence
 from typing import Any
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -15,11 +14,12 @@ def extract_param_names(func: Any) -> list[str]:
     return [
         name
         for name, param in sig.parameters.items()
-        if name not in ("self", "session")
-        and param.default is not inspect.Parameter.empty
-        or param.kind
-        in (inspect.Parameter.POSITIONAL_OR_KEYWORD, inspect.Parameter.POSITIONAL_ONLY)
-        and name not in ("self", "session")
+        if (name not in ("self", "session") and param.default is not inspect.Parameter.empty)
+        or (
+            param.kind
+            in (inspect.Parameter.POSITIONAL_OR_KEYWORD, inspect.Parameter.POSITIONAL_ONLY)
+            and name not in ("self", "session")
+        )
     ]
 
 
@@ -61,7 +61,7 @@ def build_replacements(
     """
     # Pair up names with values, skip sessions
     pairs: list[tuple[str, Any]] = []
-    for name, value in zip(param_names, args):
+    for name, value in zip(param_names, args, strict=False):
         if isinstance(value, AsyncSession):
             continue
         pairs.append((name, value))
@@ -161,7 +161,7 @@ def expand_in_clauses(sql: str, replacements: dict[str, Any]) -> tuple[str, dict
         )
         new_sql = _in_content_pat.sub(rf"\g<1>{placeholders}\g<2>", new_sql)
 
-        for pname, val in zip(param_names, value):
+        for pname, val in zip(param_names, value, strict=False):
             expanded[pname] = val
 
     return new_sql, expanded

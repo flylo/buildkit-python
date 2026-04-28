@@ -35,6 +35,7 @@ from .session import (
 from .session_factory import AiSessionFactory
 
 __all__ = [
+    "CONVERSATION_SESSION_REPOSITORY",
     "AgentConfig",
     "AgentParameterMapper",
     "AgentRunConfig",
@@ -46,7 +47,6 @@ __all__ = [
     "AiAgentService",
     "AiAgentServiceLocal",
     "AiSessionFactory",
-    "CONVERSATION_SESSION_REPOSITORY",
     "ConsensusRunResult",
     "ConsensusStrategy",
     "ConversationItemModel",

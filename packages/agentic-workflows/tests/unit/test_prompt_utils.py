@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
+import pytest
 from zeroshot_agentic_workflows import (
-    parse_prompt_frontmatter,
     generate_tools_reference,
+    parse_prompt_frontmatter,
 )
 from zeroshot_agentic_workflows.prompt_utils import map_tool_keys, validate_tools_match
-
-import pytest
 
 
 class TestParsePromptFrontmatter:

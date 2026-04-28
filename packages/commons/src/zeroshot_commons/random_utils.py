@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import random
 
-
 MAX_SAFE_INTEGER = 9_007_199_254_740_991
 
 

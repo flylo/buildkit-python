@@ -13,7 +13,6 @@ Requires:
 from __future__ import annotations
 
 import pytest
-
 from zeroshot_agent_experiments import SalaryExtractionAgent
 
 from .conftest import read_fixture

@@ -6,8 +6,9 @@ import json
 import logging
 import time
 from collections import Counter
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from .agent_service import (
     AgentConfig,
@@ -251,7 +252,9 @@ async def _resolve_consensus(
         serialized = [json.dumps(r.output, sort_keys=True, default=str) for r in successful]
         counts = Counter(serialized)
         winner_key, winner_count = counts.most_common(1)[0]
-        winner_result = next(r for r, s in zip(successful, serialized) if s == winner_key)
+        winner_result = next(
+            r for r, s in zip(successful, serialized, strict=False) if s == winner_key
+        )
         return ConsensusRunResult(
             output=winner_result.output,
             success=True,

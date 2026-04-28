@@ -6,7 +6,6 @@ from typing import Any
 from agents import Agent, Runner
 from agents.model_settings import ModelSettings
 from agents.models.openai_chatcompletions import OpenAIChatCompletionsModel
-from agents.run import RunConfig
 from openai import AsyncOpenAI
 
 from .agent_service import AgentConfig, AgentRunConfig, AgentRunResult, AgentType, T

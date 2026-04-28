@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pytest
-
 from zeroshot_agentic_workflows import (
     AiAgentConfig,
     AiAgentFactory,
