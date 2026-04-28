@@ -1,6 +1,6 @@
 [project]
 name = "zeroshot-commons-injectors"
-version = "0.1.3"
+version = "0.1.4"
 description = "Dependency Injector containers for Zeroshot infrastructure components."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -10,7 +10,7 @@ dependencies = [
   "dependency-injector>=4.46.0,<5",
   "redis>=5.2.1",
   "SQLAlchemy>=2.0.40",
-  "zeroshot-commons==0.1.3",
+  "zeroshot-commons==0.1.4",
 ]
 
 [tool.uv.sources]
