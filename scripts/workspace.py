@@ -25,6 +25,13 @@ class Package:
 PACKAGES = [
     Package("zeroshot-commons", "zeroshot_commons", "packages/commons", True),
     Package(
+        "zeroshot-commons-injectors",
+        "zeroshot_commons_injectors",
+        "packages/commons-injectors",
+        True,
+        ("zeroshot-commons",),
+    ),
+    Package(
         "zeroshot-commons-testing",
         "zeroshot_commons_testing",
         "packages/commons-testing",
@@ -46,20 +53,6 @@ PACKAGES = [
         ("zeroshot-commons",),
     ),
     Package(
-        "zeroshot-tavily-utils",
-        "zeroshot_tavily_utils",
-        "packages/tavily-utils",
-        True,
-        ("zeroshot-commons",),
-    ),
-    Package(
-        "zeroshot-docling-utils",
-        "zeroshot_docling_utils",
-        "packages/docling-utils",
-        True,
-        ("zeroshot-commons",),
-    ),
-    Package(
         "zeroshot-sql-decorators",
         "zeroshot_sql_decorators",
         "packages/sql-decorators",
@@ -75,7 +68,6 @@ PACKAGES = [
             "zeroshot-agentic-workflows",
             "zeroshot-commons-testing",
             "zeroshot-commons",
-            "zeroshot-docling-utils",
         ),
     ),
 ]

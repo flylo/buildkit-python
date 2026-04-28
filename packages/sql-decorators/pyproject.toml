@@ -5,7 +5,11 @@ description = "SQL-focused decorators and helpers for Zeroshot Python packages."
 readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"
-dependencies = ["zeroshot-commons==0.1.0"]
+dependencies = [
+  "zeroshot-commons==0.1.0",
+  "sqlalchemy[asyncio]>=2.0",
+  "asyncpg>=0.30",
+]
 
 [tool.uv.sources]
 zeroshot-commons = { workspace = true }

@@ -5,6 +5,7 @@ Python workspace for Zeroshot packages, scaffolded as a multi-package `uv` monor
 ## Packages
 
 - `zeroshot-commons`
+- `zeroshot-commons-injectors`
 - `zeroshot-commons-testing`
 - `zeroshot-agentic-workflows`
 - `zeroshot-openai-utils`

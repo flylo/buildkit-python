@@ -12,18 +12,21 @@ members = ["packages/*"]
 [dependency-groups]
 dev = [
   "build>=1.2.2",
+  "pypdf>=5.0",
   "pyright>=1.1.398",
   "pytest>=8.3.5",
   "pytest-asyncio>=0.26.0",
   "pytest-cov>=6.1.1",
+  "pytest-timeout>=2.3",
   "ruff>=0.11.8",
 ]
 
 [tool.pytest.ini_options]
-addopts = ["-ra", "--strict-config", "--strict-markers"]
+addopts = ["-ra", "--strict-config", "--strict-markers", "--import-mode=importlib"]
 asyncio_mode = "auto"
 markers = [
   "integration: marks tests that exercise external systems or cross-package integrations",
+  "eval: marks tests that exercise real LLM inference (requires a running model)",
 ]
 testpaths = ["packages"]
 
@@ -45,9 +48,8 @@ extraPaths = [
   "packages/agent-experiments/src",
   "packages/agentic-workflows/src",
   "packages/commons/src",
+  "packages/commons-injectors/src",
   "packages/commons-testing/src",
-  "packages/docling-utils/src",
   "packages/openai-utils/src",
   "packages/sql-decorators/src",
-  "packages/tavily-utils/src",
 ]

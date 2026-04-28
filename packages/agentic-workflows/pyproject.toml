@@ -5,7 +5,11 @@ description = "Framework-agnostic agent workflow building blocks for Zeroshot Py
 readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"
-dependencies = ["zeroshot-commons==0.1.0"]
+dependencies = [
+  "zeroshot-commons==0.1.0",
+  "openai-agents>=0.0.7",
+  "pyyaml>=6.0",
+]
 
 [tool.uv.sources]
 zeroshot-commons = { workspace = true }

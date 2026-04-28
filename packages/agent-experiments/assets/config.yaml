@@ -1,0 +1,3 @@
+provider: ollama
+defaultModel: "qwen2.5:latest"
+port: 3000
