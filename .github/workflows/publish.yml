@@ -1,0 +1,125 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.public-packages.outputs.packages }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.11.7"
+
+      - name: Install Python 3.12
+        run: uv python install 3.12
+
+      - name: Sync workspace
+        run: uv sync --all-packages
+
+      - name: Validate lockstep version
+        run: python3 scripts/workspace.py check-version "${GITHUB_REF_NAME#v}"
+
+      - name: Resolve public package matrix
+        id: public-packages
+        run: echo "packages=$(python3 scripts/workspace.py matrix --scope public)" >> "$GITHUB_OUTPUT"
+
+      - name: Build public distributions
+        run: |
+          python3 - <<'PY'
+          import json
+          import shutil
+          import subprocess
+          from pathlib import Path
+
+          packages = json.loads(subprocess.check_output(
+              ["python3", "scripts/workspace.py", "matrix", "--scope", "public"],
+              text=True,
+          ))
+
+          dist_root = Path("dist")
+          if dist_root.exists():
+              shutil.rmtree(dist_root)
+          dist_root.mkdir()
+
+          for package in packages:
+              package_dist = dist_root / package["dist_name"]
+              package_dist.mkdir()
+              subprocess.run(
+                  ["uv", "build", "--package", package["dist_name"], "--no-sources"],
+                  check=True,
+              )
+              built = sorted(Path("dist").glob("*.whl")) + sorted(Path("dist").glob("*.tar.gz"))
+              for artifact in built:
+                  artifact.rename(package_dist / artifact.name)
+              subprocess.run(
+                  [
+                      "uv",
+                      "run",
+                      "--isolated",
+                      "--no-project",
+                      "--with",
+                      str(next(package_dist.glob("*.whl"))),
+                      "--",
+                      "python",
+                      "scripts/smoke_test_package.py",
+                      package["import_name"],
+                  ],
+                  check=True,
+              )
+              subprocess.run(
+                  [
+                      "uv",
+                      "run",
+                      "--isolated",
+                      "--no-project",
+                      "--with",
+                      str(next(package_dist.glob("*.tar.gz"))),
+                      "--",
+                      "python",
+                      "scripts/smoke_test_package.py",
+                      package["import_name"],
+                  ],
+                  check=True,
+              )
+          PY
+
+      - name: Upload distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-dists
+          path: dist/
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJson(needs.build.outputs.packages) }}
+    environment:
+      name: pypi
+      url: https://pypi.org/p/${{ matrix.package.dist_name }}
+
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: public-dists
+          path: dist
+
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/${{ matrix.package.dist_name }}
+          password: ${{ secrets.PYPI_TOKEN }}

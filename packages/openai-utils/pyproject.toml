@@ -1,0 +1,19 @@
+[project]
+name = "zeroshot-openai-utils"
+version = "0.1.0"
+description = "OpenAI-compatible utilities for Zeroshot Python packages."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = [
+  "zeroshot-commons==0.1.0",
+  "openai>=1.30",
+  "dependency-injector>=4.41",
+]
+
+[tool.uv.sources]
+zeroshot-commons = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.11.8,<0.12"]
+build-backend = "uv_build"

@@ -1,0 +1,30 @@
+[project]
+name = "zeroshot-agent-experiments"
+version = "0.1.0"
+description = "Private application package for Zeroshot agent experiments."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = [
+  "zeroshot-agentic-workflows==0.1.0",
+  "zeroshot-commons-testing==0.1.0",
+  "zeroshot-commons==0.1.0",
+  "pydantic>=2.0",
+  "pyyaml>=6.0",
+  "fpdf2>=2.8",
+]
+
+[project.scripts]
+zeroshot-agent-experiments = "zeroshot_agent_experiments.cli:main"
+
+[tool.uv.sources]
+zeroshot-agentic-workflows = { workspace = true }
+zeroshot-commons = { workspace = true }
+zeroshot-commons-testing = { workspace = true }
+
+[tool.uv-build]
+data-includes = ["src/zeroshot_agent_experiments/**/*.md", "assets/**"]
+
+[build-system]
+requires = ["uv_build>=0.11.8,<0.12"]
+build-backend = "uv_build"
