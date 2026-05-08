@@ -29,7 +29,9 @@ class PostgresConnectionConfig:
     def from_url(cls, url: str) -> PostgresConnectionConfig:
         parsed = urlparse(url)
         if parsed.scheme not in ("postgresql", "postgres"):
-            raise ValueError(f"Unsupported scheme '{parsed.scheme}', expected 'postgresql' or 'postgres'")
+            raise ValueError(
+                f"Unsupported scheme '{parsed.scheme}', expected 'postgresql' or 'postgres'"
+            )
         return cls(
             host=parsed.hostname or "localhost",
             port=parsed.port or 5432,
