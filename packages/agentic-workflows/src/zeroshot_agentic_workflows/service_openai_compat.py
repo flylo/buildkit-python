@@ -13,19 +13,20 @@ from .agent_service import AgentConfig, AgentRunConfig, AgentRunResult, AgentTyp
 logger = logging.getLogger(__name__)
 
 
-class AiAgentServiceOllama:
-    """Ollama implementation via OpenAI-compatible API."""
+class AiAgentServiceOpenAICompat:
+    """OpenAI-compatible API implementation (Ollama, OpenRouter, etc.)."""
 
     def __init__(
         self,
-        base_url: str = "http://localhost:11434",
-        default_model: str = "qwen2.5:14b",
+        base_url: str,
+        api_key: str,
+        default_model: str,
     ) -> None:
         self._base_url = base_url
         self._default_model = default_model
         self._client = AsyncOpenAI(
-            base_url=f"{base_url}/v1",
-            api_key="ollama",
+            base_url=base_url,
+            api_key=api_key,
         )
 
     def create_agent(self, config: AgentConfig[T]) -> AgentType[T]:

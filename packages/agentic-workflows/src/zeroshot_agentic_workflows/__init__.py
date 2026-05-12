@@ -21,6 +21,7 @@ from .prompt_utils import (
     generate_tools_reference,
     parse_prompt_frontmatter,
 )
+from .service_openai_compat import AiAgentServiceOpenAICompat
 from .session import (
     CONVERSATION_SESSION_REPOSITORY,
     ConversationItemModel,
@@ -46,6 +47,7 @@ __all__ = [
     "AiAgentProvider",
     "AiAgentService",
     "AiAgentServiceLocal",
+    "AiAgentServiceOpenAICompat",
     "AiSessionFactory",
     "ConsensusRunResult",
     "ConsensusStrategy",

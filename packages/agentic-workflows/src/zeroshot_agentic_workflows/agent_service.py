@@ -74,7 +74,7 @@ class AiAgentService(Protocol):
 
 class AiAgentProvider(StrEnum):
     OPENAI = "openai"
-    OLLAMA = "ollama"
+    OPENAI_COMPAT = "openai_compat"
 
 
 @dataclass(frozen=True, slots=True)
@@ -82,7 +82,8 @@ class AiAgentConfig:
     local: bool
     provider: AiAgentProvider = AiAgentProvider.OPENAI
     openai_api_token: str | None = None
-    ollama_base_url: str = "http://localhost:11434"
+    openai_compat_base_url: str | None = None
+    openai_compat_api_key: str | None = None
     default_model: str | None = None
 
 
