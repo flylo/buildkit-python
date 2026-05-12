@@ -8,7 +8,7 @@ Tests are organized into three tiers, each gated by a CLI flag:
 |------|-----------|------|---------------|
 | Unit | `tests/unit/` | *(always runs)* | Pure logic, no I/O |
 | Integration | `tests/integration/` | `--integration` | Real Postgres/Redis via testcontainers |
-| Eval | `tests/evals/` | `--eval` | Real LLM inference via Ollama |
+| Eval | `tests/evals/` | `--eval` | Real LLM inference via OpenAI-compatible API |
 
 Run them:
 ```bash

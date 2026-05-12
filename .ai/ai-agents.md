@@ -10,7 +10,7 @@ multiple implementations:
 - `service_openai.py`: production implementation using the OpenAI Agents SDK
 - `agent_service.py` (`AiAgentServiceLocal`): mocked implementation for testing non-AI portions of workflows
   (orchestration, task management, error handling, etc)
-- `service_ollama.py`: hits a local Ollama deployment for development/testing with local models
+- `service_openai_compat.py`: hits any OpenAI-compatible API (Ollama, OpenRouter, etc.)
 
 ## Factory
 
@@ -21,8 +21,9 @@ from zeroshot_agentic_workflows import AiAgentConfig, AiAgentFactory, AiAgentPro
 
 config = AiAgentConfig(
     local=False,
-    provider=AiAgentProvider.OLLAMA,
-    ollama_base_url="http://localhost:11434",
+    provider=AiAgentProvider.OPENAI_COMPAT,
+    openai_compat_base_url="http://localhost:11434/v1",
+    openai_compat_api_key="ollama",
     default_model="qwen2.5:latest",
 )
 factory = AiAgentFactory(config)

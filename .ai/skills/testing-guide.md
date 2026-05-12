@@ -14,7 +14,7 @@ Read these docs for full details:
 ### Test Tiers
 - **Unit** (`tests/unit/`): always runs, no I/O
 - **Integration** (`tests/integration/`): `--integration` flag, real Postgres/Redis via testcontainers
-- **Eval** (`tests/evals/`): `--eval` flag, real LLM inference via Ollama
+- **Eval** (`tests/evals/`): `--eval` flag, real LLM inference via OpenAI-compatible API
 
 ### Testcontainers
 ```python

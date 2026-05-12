@@ -1,12 +1,12 @@
 """Salary extraction eval suite.
 
-These tests exercise real LLM inference via Ollama and are skipped
-by default.  Run with:
+These tests exercise real LLM inference via an OpenAI-compatible API
+and are skipped by default.  Run with:
 
     uv run pytest --eval packages/agent-experiments/tests/evals/
 
 Requires:
-  - Ollama running locally with ``qwen2.5:latest`` pulled
+  - An OpenAI-compatible API running (e.g. Ollama with ``qwen2.5:latest``)
   - PDF fixtures generated (run generate_fixtures.py first)
 """
 

@@ -12,11 +12,12 @@ FIXTURES_DIR = Path(__file__).parent / "assets" / "fixtures"
 
 @pytest_asyncio.fixture(scope="module", loop_scope="module")
 async def salary_agent():
-    """Create a SalaryExtractionAgent wired to local Ollama."""
+    """Create a SalaryExtractionAgent wired to a local OpenAI-compatible API."""
     config = AiAgentConfig(
         local=False,
-        provider=AiAgentProvider.OLLAMA,
-        ollama_base_url="http://localhost:11434",
+        provider=AiAgentProvider.OPENAI_COMPAT,
+        openai_compat_base_url="http://localhost:11434/v1",
+        openai_compat_api_key="ollama",
         default_model="qwen2.5:latest",
     )
     factory = AiAgentFactory(config)
