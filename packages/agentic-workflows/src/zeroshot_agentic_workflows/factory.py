@@ -17,7 +17,9 @@ class AiAgentFactory:
 
         if self._config.provider == AiAgentProvider.OPENAI_COMPAT:
             if not self._config.openai_compat_base_url:
-                raise ValueError("openai_compat_base_url is required for the OpenAI-compatible provider")
+                raise ValueError(
+                    "openai_compat_base_url is required for the OpenAI-compatible provider"
+                )
             return AiAgentServiceOpenAICompat(
                 base_url=self._config.openai_compat_base_url,
                 api_key=self._config.openai_compat_api_key or "",
