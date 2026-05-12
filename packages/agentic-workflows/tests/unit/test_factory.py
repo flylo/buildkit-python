@@ -29,11 +29,24 @@ class TestAiAgentFactory:
         with pytest.raises(ValueError, match="openai_api_token"):
             factory.make_agent_service()
 
-    def test_static_ollama_factory(self) -> None:
-        from zeroshot_agentic_workflows.service_ollama import AiAgentServiceOllama
+    def test_static_openai_compat_factory(self) -> None:
+        from zeroshot_agentic_workflows.service_openai_compat import AiAgentServiceOpenAICompat
 
-        service = AiAgentFactory.make_ollama_service()
-        assert isinstance(service, AiAgentServiceOllama)
+        service = AiAgentFactory.make_openai_compat_service(
+            base_url="http://localhost:11434/v1",
+            api_key="test",
+            default_model="qwen2.5:14b",
+        )
+        assert isinstance(service, AiAgentServiceOpenAICompat)
+
+    def test_openai_compat_provider_requires_base_url(self) -> None:
+        config = AiAgentConfig(
+            local=False,
+            provider=AiAgentProvider.OPENAI_COMPAT,
+        )
+        factory = AiAgentFactory(config)
+        with pytest.raises(ValueError, match="openai_compat_base_url"):
+            factory.make_agent_service()
 
 
 class TestAiSessionFactory:

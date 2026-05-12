@@ -15,6 +15,7 @@ from .agent_service import (
 from .decorators import agent, agentic_workflow, consensus_agent
 from .factory import AiAgentFactory
 from .param_mapper import AgentParameterMapper
+from .service_openai_compat import AiAgentServiceOpenAICompat
 from .prompt_utils import (
     ParsedPrompt,
     PromptFrontmatter,
@@ -46,6 +47,7 @@ __all__ = [
     "AiAgentProvider",
     "AiAgentService",
     "AiAgentServiceLocal",
+    "AiAgentServiceOpenAICompat",
     "AiSessionFactory",
     "ConsensusRunResult",
     "ConsensusStrategy",
