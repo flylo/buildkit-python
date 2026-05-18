@@ -91,11 +91,11 @@ def agent(
             # Map parameters — merge kwargs into positional order
             if kwargs:
                 import inspect as _inspect
+
                 sig = _inspect.signature(fn)
                 params = [p for p in sig.parameters if p != "self"]
                 all_args = tuple(
-                    kwargs.get(p, args[i] if i < len(args) else None)
-                    for i, p in enumerate(params)
+                    kwargs.get(p, args[i] if i < len(args) else None) for i, p in enumerate(params)
                 )
             else:
                 all_args = args
@@ -195,11 +195,11 @@ def consensus_agent(
             # Map parameters — merge kwargs into positional order
             if kwargs:
                 import inspect as _inspect
+
                 sig = _inspect.signature(fn)
                 params = [p for p in sig.parameters if p != "self"]
                 all_args = tuple(
-                    kwargs.get(p, args[i] if i < len(args) else None)
-                    for i, p in enumerate(params)
+                    kwargs.get(p, args[i] if i < len(args) else None) for i, p in enumerate(params)
                 )
             else:
                 all_args = args
