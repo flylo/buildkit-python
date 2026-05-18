@@ -146,6 +146,28 @@ class TestAgentDecorator:
         assert "session" not in input_json
         assert input_json["input_text"] == "some text"
 
+    async def test_kwargs_are_mapped_to_input_json(self, prompts_dir: str) -> None:
+        """When the decorated method is called with keyword arguments, they
+        should still appear in the input JSON sent to the agent service."""
+        Cls = _make_workflow_class(prompts_dir)
+        service = AiAgentServiceLocal.get_instance()
+
+        captured: list[AgentRunConfig] = []
+        original = service.create_and_run
+
+        async def spy(config: AgentConfig[str], run_config: AgentRunConfig) -> AgentRunResult[str]:
+            captured.append(run_config)
+            return await original(config, run_config)
+
+        service.create_and_run = spy  # type: ignore[assignment]
+
+        wf = Cls(service)
+        await wf.test_method(input_text="kwarg value")
+
+        assert len(captured) == 1
+        input_json = json.loads(captured[0].input)
+        assert input_json["input_text"] == "kwarg value"
+
     async def test_passes_model_override(self, prompts_dir: str) -> None:
         Cls = _make_workflow_class(prompts_dir)
         service = AiAgentServiceLocal.get_instance()

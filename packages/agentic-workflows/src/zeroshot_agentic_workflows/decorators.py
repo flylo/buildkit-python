@@ -88,8 +88,17 @@ def agent(
             if tools_ref:
                 instructions = tools_ref + "\n" + instructions
 
-            # Map parameters
-            all_args = args
+            # Map parameters — merge kwargs into positional order
+            if kwargs:
+                import inspect as _inspect
+                sig = _inspect.signature(fn)
+                params = [p for p in sig.parameters if p != "self"]
+                all_args = tuple(
+                    kwargs.get(p, args[i] if i < len(args) else None)
+                    for i, p in enumerate(params)
+                )
+            else:
+                all_args = args
             mapped = mapper.map_arguments(all_args)
             session = mapper.find_session(all_args)
 
@@ -183,8 +192,19 @@ def consensus_agent(
             if tools_ref:
                 instructions = tools_ref + "\n" + instructions
 
-            mapped = mapper.map_arguments(args)
-            session = mapper.find_session(args)
+            # Map parameters — merge kwargs into positional order
+            if kwargs:
+                import inspect as _inspect
+                sig = _inspect.signature(fn)
+                params = [p for p in sig.parameters if p != "self"]
+                all_args = tuple(
+                    kwargs.get(p, args[i] if i < len(args) else None)
+                    for i, p in enumerate(params)
+                )
+            else:
+                all_args = args
+            mapped = mapper.map_arguments(all_args)
+            session = mapper.find_session(all_args)
             agent_name = name or f"{self.__class__.__name__}:{fn.__name__}"
             effective_max_turns = max_turns or (8 if resolved_tools else 1)
 
