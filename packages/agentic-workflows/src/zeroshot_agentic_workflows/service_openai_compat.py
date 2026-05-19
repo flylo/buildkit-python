@@ -61,7 +61,8 @@ class AiAgentServiceOpenAICompat:
                 model=model,
                 tools=agent_config.tools or [],
                 output_type=AgentOutputSchema(agent_config.output_schema, strict_json_schema=False)
-                    if agent_config.output_schema else None,
+                if agent_config.output_schema
+                else None,
                 model_settings=ms or ModelSettings(),
             )
 
