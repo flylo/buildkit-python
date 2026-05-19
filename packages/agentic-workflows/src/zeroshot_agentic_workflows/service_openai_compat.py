@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from agents import Agent, Runner
+from agents import Agent, AgentOutputSchema, Runner
 from agents.model_settings import ModelSettings
 from agents.models.openai_chatcompletions import OpenAIChatCompletionsModel
 from openai import AsyncOpenAI
@@ -60,7 +60,9 @@ class AiAgentServiceOpenAICompat:
                 instructions=agent_config.instructions,
                 model=model,
                 tools=agent_config.tools or [],
-                output_type=agent_config.output_schema,
+                output_type=AgentOutputSchema(agent_config.output_schema, strict_json_schema=False)
+                if agent_config.output_schema
+                else None,
                 model_settings=ms or ModelSettings(),
             )
 
